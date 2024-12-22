@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Time Capsule</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background: #000;
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .stars-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate var(--rotation-duration) linear infinite;
+        }
+
+        .star {
+            position: absolute;
+            background: radial-gradient(circle, var(--star-color) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: var(--star-opacity);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--star-opacity); }
+            50% { opacity: calc(var(--star-opacity) * 0.3); }
+        }
+
+        .nebula {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                transparent 0%,
+                rgba(16, 0, 32, 0.2) 50%,
+                transparent 100%
+            );
+            animation: nebulaMove 60s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes nebulaMove {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid #00ff00;
+            max-width: 90%;
+            width: 600px;
+        }
+
+        .digital-clock {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #00ff00;
+            font-weight: bold;
+        }
+
+        .message-area {
+            width: 100%;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            resize: none;
+            font-size: 1rem;
+        }
+
+        .past-entry {
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 1px solid #00ff00;
+            background: rgba(0, 0, 0, 0.5);
+            max-height: 200px;
+            overflow-y: auto;
+            opacity: 0.7;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="universe">
+        <div class="nebula"></div>
+    </div>
+    <div class="container">
+        <div class="digital-clock" id="clock"></div>
+        <textarea 
+            class="message-area" 
+            rows="4"
+            onkeydown="if(event.keyCode == 13) { this.value = this.value + '\n'; return false; }"
+        ></textarea>
+        <div class="past-entry">
+            <p>22/12/2022</p>
+            <p style="margin-top: 1rem;"></p>
+        </div>
+    </div>
+
+    <script>
+        // Create multiple star layers with different rotation speeds
+        function createStarLayers() {
+            const universe = document.querySelector('.universe');
+            const layers = 3;
+            
+            for (let layer = 0; layer < layers; layer++) {
+                const starLayer = document.createElement('div');
+                starLayer.className = 'stars-layer';
+                starLayer.style.setProperty('--rotation-duration', `${150 + (layer * 50)}s`);
+                
+                // Create stars for this layer
+                const numStars = 100 + (layer * 50);
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    
+                    // Randomize star properties
+                    const size = Math.random() * (3 - 0.5) + 0.5;
+                    const opacity = Math.random() * (0.9 - 0.2) + 0.2;
+                    
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.setProperty('--star-opacity', opacity);
+                    star.style.setProperty('--star-color', `rgb(255, ${200 + Math.random() * 55}, ${200 + Math.random() * 55})`);
+                    
+                    // Add twinkling effect to some stars
+                    if (Math.random() > 0.7) {
+                        star.style.animation = `twinkle ${3 + Math.random() * 4}s ease-in-out infinite`;
+                    }
+                    
+                    starLayer.appendChild(star);
+                }
+                
+                universe.appendChild(starLayer);
+            }
+        }
+
+        createStarLayers();
+
+        // Update digital clock
+        function updateClock() {
+            const now = new Date();
+            const clockDiv = document.getElementById('clock');
+            const timeStr = now.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).replace(/,/g, '');
+            clockDiv.textContent = timeStr;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
