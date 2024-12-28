@@ -189,7 +189,26 @@
         </div>
     </div>
 
-    <script>
+    <script>function handleCommand() {
+        // Get the message from the textarea
+        const messageArea = document.querySelector('.message-area');
+        const message = messageArea.value;
+    
+        // Check if the message is not empty
+        if (message.trim() !== "") {
+            // Display the message in the past-entry section
+            const pastEntry = document.querySelector('.past-entry');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            pastEntry.appendChild(newMessage);
+    
+            // Clear the textarea after submission
+            messageArea.value = '';
+        } else {
+            alert("Please enter a message before clicking COMMAND.");
+        }
+    }
+
         // Create multiple star layers with different rotation speeds
         function createStarLayers() {
             const universe = document.querySelector('.universe');
