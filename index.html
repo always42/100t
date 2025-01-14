@@ -1,285 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Time Capsule</title>
+    <title>Geleceğin Yüz Sorumluluğu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
+        :root {
+            --primary-color: #2563eb;
+            --background-color: #f8fafc;
+            --text-color: #334155;
         }
 
         body {
-            background: #000;
-            color: #00ff00;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .universe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .stars-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: rotate var(--rotation-duration) linear infinite;
-        }
-
-        .bright-flash {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #fff;
-            border-radius: 50%;
-            animation: flash var(--flash-duration) ease-out infinite;
-            opacity: 0;
-        }
-
-        @keyframes flash {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        .star {
-            position: absolute;
-            background: radial-gradient(circle, var(--star-color) 0%, transparent 70%);
-            border-radius: 50%;
-            opacity: var(--star-opacity);
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: var(--star-opacity); }
-            50% { opacity: calc(var(--star-opacity) * 0.3); }
-        }
-
-        .nebula {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                circle at center,
-                transparent 0%,
-                rgba(16, 0, 32, 0.2) 50%,
-                transparent 100%
-            );
-            animation: nebulaMove 60s linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes nebulaMove {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(180deg); }
-            100% { transform: scale(1) rotate(360deg); }
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-family: system-ui, -apple-system, sans-serif;
         }
 
         .container {
-            text-align: center;
-            z-index: 1;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid #00ff00;
-            max-width: 90%;
-            width: 600px;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .digital-clock {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px #00ff00;
-            font-weight: bold;
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
         }
 
-        .countdown {
-            font-size: 1.5rem;
+        .intro-text {
+            font-size: 1.2rem;
+            color: #64748b;
             margin-bottom: 2rem;
-            text-shadow: 0 0 5px #00ff00;
-            opacity: 0.8;
         }
 
-        .message-area {
-            width: 100%;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            resize: none;
-            font-size: 1rem;
+        .list-group {
+            border: none;
+            margin: 2rem 0;
         }
 
-        .command-btn {
-            background: transparent;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            padding: 0.75rem 2rem;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            margin: 1rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px #00ff00;
+        .list-group-item {
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .command-btn:hover {
-            background: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        .list-group-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .past-entry {
+        .list-group-item span {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 1.1rem;
             margin-top: 2rem;
-            padding: 1rem;
-            border: 1px solid #00ff00;
-            background: rgba(0, 0, 0, 0.5);
-            max-height: 200px;
-            overflow-y: auto;
-            opacity: 0.7;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #00ff00;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
         }
     </style>
 </head>
 <body>
-    <div class="universe">
-        <div class="nebula"></div>
-    </div>
     <div class="container">
-        <div class="digital-clock" id="clock"></div>
-        <div class="countdown" id="countdown"></div>
-        <textarea 
-            class="message-area" 
-            rows="4"
-            onkeydown="if(event.keyCode == 13) { this.value = this.value + '\n'; return false; }"
-        ></textarea>
-        <button class="command-btn">COMMAND</button>
-        <div class="past-entry">
-            <p>22/12/2022</p>
-            <p style="margin-top: 1rem;"></p>
+        <h1 class="text-center">Geleceğin Yüz Sorumluluğu</h1>
+        <p class="text-center intro-text">Yaşamı korumak için birlikte hareket edelim.</p>
+        
+        <div class="list-group">
+            <div class="list-group-item"><span>01</span>Tüm dünyada yenilenebilir enerji kaynaklarının kullanımı zorunlu hale getirilmeli.</div>
+            <div class="list-group-item"><span>02</span>Uzay çöplüğü temizliği için global bir iş birliği başlatılmalı.</div>
+            <div class="list-group-item"><span>03</span>Plastik kullanımını tamamen sonlandıracak alternatif malzemeler geliştirilip yaygınlaştırılmalı.</div>
+            <div class="list-group-item"><span>04</span>Dünyadaki tüm ulusların karbon salınımını %70 azaltması için bağlayıcı uluslararası anlaşmalar yapılmalı.</div>
+            <div class="list-group-item"><span>05</span>Gıda israfını önlemek için tüm ülkelerde zorunlu yasalar çıkarılmalı.</div>
+            <div class="list-group-item"><span>06</span>Doğal kaynak tüketimi, kişi başına yıllık bir sınırla düzenlenmeli.</div>
+            <div class="list-group-item"><span>07</span>Eğitim sistemlerine 'ekolojik okuryazarlık' zorunlu ders olarak eklenmeli.</div>
+            <div class="list-group-item"><span>08</span>Dünyadaki ormanlık alanların en az %30'u koruma altına alınmalı.</div>
+            <div class="list-group-item"><span>09</span>Nükleer enerji kullanımını azaltıp güvenlik protokolleri yeniden gözden geçirilmeli.</div>
+            <div class="list-group-item"><span>10</span>Toplumlar arası gelir eşitsizliğini azaltmaya yönelik küresel bir fon oluşturulmalı.</div>
         </div>
+
+        <p class="text-center footer-text">Bu fikirleri arkadaşlarınızla paylaşarak tartışmaya katılabilirsiniz.</p>
     </div>
-
-    <script>
-        // Create multiple star layers with different rotation speeds
-        function createStarLayers() {
-            const universe = document.querySelector('.universe');
-            const layers = 3;
-            
-            for (let layer = 0; layer < layers; layer++) {
-                const starLayer = document.createElement('div');
-                starLayer.className = 'stars-layer';
-                starLayer.style.setProperty('--rotation-duration', `${150 + (layer * 50)}s`);
-                
-                const numStars = 100 + (layer * 50);
-                for (let i = 0; i < numStars; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    
-                    const size = Math.random() * (3 - 0.5) + 0.5;
-                    const opacity = Math.random() * (0.9 - 0.2) + 0.2;
-                    
-                    star.style.width = `${size}px`;
-                    star.style.height = `${size}px`;
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.top = `${Math.random() * 100}%`;
-                    star.style.setProperty('--star-opacity', opacity);
-                    star.style.setProperty('--star-color', `rgb(255, ${200 + Math.random() * 55}, ${200 + Math.random() * 55})`);
-                    
-                    if (Math.random() > 0.7) {
-                        star.style.animation = `twinkle ${3 + Math.random() * 4}s ease-in-out infinite`;
-                    }
-                    
-                    starLayer.appendChild(star);
-                }
-                
-                universe.appendChild(starLayer);
-            }
-        }
-
-        // Create random bright flashes
-        function createRandomFlash() {
-            const universe = document.querySelector('.universe');
-            const flash = document.createElement('div');
-            flash.className = 'bright-flash';
-            
-            const duration = 1 + Math.random() * 2;
-            flash.style.left = `${Math.random() * 100}%`;
-            flash.style.top = `${Math.random() * 100}%`;
-            flash.style.setProperty('--flash-duration', `${duration}s`);
-            
-            universe.appendChild(flash);
-            
-            setTimeout(() => {
-                flash.remove();
-            }, duration * 1000);
-        }
-
-        // Create periodic flashes
-        setInterval(createRandomFlash, 2000);
-
-        createStarLayers();
-
-        // Update digital clock and countdown
-        function updateTimeDisplays() {
-            const now = new Date();
-            const target = new Date('2025-03-21T00:00:00');
-            const diff = target - now;
-
-            // Update clock
-            const clockDiv = document.getElementById('clock');
-            const timeStr = now.toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            }).replace(/,/g, '');
-            clockDiv.textContent = timeStr;
-
-            // Update countdown
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            const countdownDiv = document.getElementById('countdown');
-            countdownDiv.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s until 2025`;
-        }
-
-        updateTimeDisplays();
-        setInterval(updateTimeDisplays, 1000);
-    </script>
 </body>
 </html>
