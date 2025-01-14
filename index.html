@@ -7,93 +7,149 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --background-color: #f8fafc;
-            --text-color: #334155;
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-primary: #1a365d;
+            --text-secondary: #4a5568;
+            --accent-color: #3182ce;
         }
 
         body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            padding: 20px 0;
         }
 
         .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            max-width: 750px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
-            color: var(--primary-color);
-            font-size: 2.5rem;
+            color: var(--text-primary);
+            font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
         }
 
         .intro-text {
             font-size: 1.2rem;
-            color: #64748b;
-            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
         }
 
-        .list-group {
-            border: none;
-            margin: 2rem 0;
+        .responsibilities-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .list-group-item {
-            padding: 1rem 1.5rem;
-            margin-bottom: 0.5rem;
+        .responsibility-item {
+            background: var(--card-bg);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background-color: white;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
         }
 
-        .list-group-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .list-group-item span {
-            color: var(--primary-color);
+        .number {
+            color: var(--accent-color);
             font-weight: 600;
-            margin-right: 0.5rem;
+            font-size: 1.1rem;
+            min-width: 32px;
+        }
+
+        .content {
+            flex: 1;
+            line-height: 1.6;
         }
 
         .footer-text {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-top: 2rem;
-            padding-top: 1rem;
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
             border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .responsibility-item {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center">Geleceğin Yüz Sorumluluğu</h1>
-        <p class="text-center intro-text">Yaşamı korumak için birlikte hareket edelim.</p>
+        <p class="intro-text text-center">Yaşamı korumak için birlikte hareket edelim.</p>
         
-        <div class="list-group">
-            <div class="list-group-item"><span>01</span>Tüm dünyada yenilenebilir enerji kaynaklarının kullanımı zorunlu hale getirilmeli.</div>
-            <div class="list-group-item"><span>02</span>Uzay çöplüğü temizliği için global bir iş birliği başlatılmalı.</div>
-            <div class="list-group-item"><span>03</span>Plastik kullanımını tamamen sonlandıracak alternatif malzemeler geliştirilip yaygınlaştırılmalı.</div>
-            <div class="list-group-item"><span>04</span>Dünyadaki tüm ulusların karbon salınımını %70 azaltması için bağlayıcı uluslararası anlaşmalar yapılmalı.</div>
-            <div class="list-group-item"><span>05</span>Gıda israfını önlemek için tüm ülkelerde zorunlu yasalar çıkarılmalı.</div>
-            <div class="list-group-item"><span>06</span>Doğal kaynak tüketimi, kişi başına yıllık bir sınırla düzenlenmeli.</div>
-            <div class="list-group-item"><span>07</span>Eğitim sistemlerine 'ekolojik okuryazarlık' zorunlu ders olarak eklenmeli.</div>
-            <div class="list-group-item"><span>08</span>Dünyadaki ormanlık alanların en az %30'u koruma altına alınmalı.</div>
-            <div class="list-group-item"><span>09</span>Nükleer enerji kullanımını azaltıp güvenlik protokolleri yeniden gözden geçirilmeli.</div>
-            <div class="list-group-item"><span>10</span>Toplumlar arası gelir eşitsizliğini azaltmaya yönelik küresel bir fon oluşturulmalı.</div>
+        <div class="responsibilities-list">
+            <div class="responsibility-item">
+                <div class="number">01</div>
+                <div class="content">Tüm dünyada yenilenebilir enerji kaynaklarının kullanımı zorunlu hale getirilmeli.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">02</div>
+                <div class="content">Uzay çöplüğü temizliği için global bir iş birliği başlatılmalı.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">03</div>
+                <div class="content">Plastik kullanımını tamamen sonlandıracak alternatif malzemeler geliştirilip yaygınlaştırılmalı.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">04</div>
+                <div class="content">Dünyadaki tüm ulusların karbon salınımını %70 azaltması için bağlayıcı uluslararası anlaşmalar yapılmalı.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">05</div>
+                <div class="content">Gıda israfını önlemek için tüm ülkelerde zorunlu yasalar çıkarılmalı.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">06</div>
+                <div class="content">Doğal kaynak tüketimi, kişi başına yıllık bir sınırla düzenlenmeli.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">07</div>
+                <div class="content">Eğitim sistemlerine 'ekolojik okuryazarlık' zorunlu ders olarak eklenmeli.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">08</div>
+                <div class="content">Dünyadaki ormanlık alanların en az %30'u koruma altına alınmalı.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">09</div>
+                <div class="content">Nükleer enerji kullanımını azaltıp güvenlik protokolleri yeniden gözden geçirilmeli.</div>
+            </div>
+            <div class="responsibility-item">
+                <div class="number">10</div>
+                <div class="content">Toplumlar arası gelir eşitsizliğini azaltmaya yönelik küresel bir fon oluşturulmalı.</div>
+            </div>
         </div>
 
-        <p class="text-center footer-text">Bu fikirleri arkadaşlarınızla paylaşarak tartışmaya katılabilirsiniz.</p>
+        <p class="footer-text">Bu fikirleri arkadaşlarınızla paylaşarak tartışmaya katılabilirsiniz.</p>
     </div>
 </body>
 </html>
